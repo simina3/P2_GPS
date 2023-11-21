@@ -1,7 +1,7 @@
-FROM mongo
+# Dockerfile para la creación de imagen con MongoDB
+FROM mongo:3.4
 
-MAINTAINER juliens@microsoft.com
+COPY drop/* usr/local/data/db/
 
-COPY drop/* /tmp/
-
+# CMD es lo mismo que ENTRYPOINT pero con otro formato
 CMD ["mongod", "--smallfiles", "--rest"]
