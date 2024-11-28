@@ -5,14 +5,27 @@ services:
   # ahora se indican los servicios por el orden en que se quiere que se inicien.
   #Por ejemplo, mongo debe estar antes de order.
   #mongo: mismo nombre usado en el run.sh de Order y application.properties. #Se resuelve en una dirección IP.
-  mongo:
+  web:
+    image: simina3/p2_gps:web
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          cpus: "0.25"
+          # memory: 300M
+      restart_policy:
+        condition: on-failure
+    ports:
+      - "80:8080"
+
+    mongo:
     image: simina3/p2_gps:db
     deploy:
       replicas: 1 # para escabilidad del servicio.
       resources:
         limits:
           cpus: "0.15"
-          memory: 200M
+          # memory: 200M
       restart_policy:
         condition: on-failure #reinicar el contenedor si falla
     ports:
@@ -30,24 +43,11 @@ services:
       resources:
         limits:
           cpus: "0.3"
-          memory: 500M
+          # memory: 500M
       restart_policy:
         condition: on-failure
     ports:
       - "8080:8080"
-
-  web:
-    image: simina3/p2_gps:web
-    deploy:
-      replicas: 1
-      resources:
-        limits:
-          cpus: "0.25"
-          memory: 300M
-      restart_policy:
-        condition: on-failure
-    ports:
-      - "80:8080"
 
 volumes:
   db-data:
